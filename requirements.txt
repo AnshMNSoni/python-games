@@ -1,0 +1,10 @@
+# Python Games - Requirements
+# Most games use only Python standard library (tkinter, turtle)
+# Install these for development/testing:
+
+# Testing
+pytest>=7.0.0
+
+# Optional: Code quality tools
+# flake8>=6.0.0
+# black>=23.0.0
