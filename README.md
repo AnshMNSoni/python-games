@@ -1,8 +1,8 @@
-# 🎮 Python Games Collection
+# Python Games Collection
 
 A collection of classic games built with Python! Perfect for learning game development, practicing Python, or just having fun.
 
-## 🕹️ Available Games
+## Available Games
 
 | Game | Description | Run Command |
 |------|-------------|-------------|
@@ -16,7 +16,7 @@ A collection of classic games built with Python! Perfect for learning game devel
 | **KBC** | Quiz game inspired by Kaun Banega Crorepati | `cd KBC && python main.py` |
 | **RockPaperScissor** | Classic hand game vs computer | `cd RockPaperScissor && python main.py` |
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -46,7 +46,7 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines 
 - Reporting bugs
 - Suggesting features
 
-## 🧪 Running Tests
+## Running Tests
 
 ```bash
 # Install pytest
