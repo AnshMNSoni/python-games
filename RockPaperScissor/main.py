@@ -93,6 +93,17 @@ class GameUI:
         )
         self.end_button.grid(row=4, column=0)
 
+        # Reset Button
+        self.reset_button = Button(
+            text="Reset Score",
+            command=self.reset_scores,
+            fg="white",
+            bg="orange",  # Different color to distinguish it
+            highlightthickness=0,
+            font=FONT,
+        )
+        self.reset_button.grid(row=5, column=0, pady=10)
+
         # User Label:
         self.user_label = Label(
             text="User", bg=THEME_COLOR, fg="white", highlightthickness=0, font=FONT
@@ -204,28 +215,28 @@ class GameUI:
         self.result.config(text="Tie", bg="yellow", fg="black")
 
     def End(self):
-        is_yes = messagebox.askyesno(
-            message=f"Your Score :: {self.user_score} \n\nWant to play again?"
+        # Just show the final score and quit
+        messagebox.showinfo(
+            title="Game Over",
+            message=f"Final Scores:\nUser: {self.user_score}\nComputer: {self.computer_score}"
         )
+        self.window.quit()
+    
+    def reset_scores(self):
+        # Reset score variables
+        self.user_score = 0
+        self.userscore["text"] = f"Score :: {self.user_score}"
 
-        if is_yes:
-            # Reset score:
-            self.user_score = 0
-            self.userscore["text"] = f"Score :: {self.user_score}"
+        self.computer_score = 0
+        self.computerscore["text"] = f"Score :: {self.computer_score}"
 
-            self.computer_score = 0
-            self.computerscore["text"] = f"Score :: {self.computer_score}"
+        # Reset images to default grey
+        self.img_grey = PhotoImage(file=get_image_path("grey.png"))
+        self.user_canvas.itemconfig(self.user, image=self.img_grey)
+        self.computer_canvas.itemconfig(self.computer, image=self.img_grey)
 
-            # Reset canvases:
-            self.img_grey = PhotoImage(file=get_image_path("grey.png"))
-            self.user_canvas.itemconfig(self.user, image=self.img_grey)
-            self.computer_canvas.itemconfig(self.computer, image=self.img_grey)
-
-            # Reset Result Label:
-            self.result.config(text=None, bg=THEME_COLOR, fg=THEME_COLOR)
-
-        else:
-            self.window.quit()
+        # Clear the result text
+        self.result.config(text=None, bg=THEME_COLOR, fg=THEME_COLOR)
 
 
 GameUI()
