@@ -139,6 +139,16 @@ class HangmanGame:
         )
         self.reset_button.pack(pady=10)
 
+        # Used Letters Label
+        self.history_label = tk.Label(
+            self.window,
+            text="Used Letters: None",
+            font=("Courier", 12, "bold"),
+            bg="lightblue",
+            fg="darkblue"
+        )
+        self.history_label.pack(pady=10)
+
     def guess_letter(self):
         guess = self.guess_entry.get().lower()
 
@@ -183,6 +193,9 @@ class HangmanGame:
                 messagebox.showinfo(
                     "Hangman", f"You lose! The word was '{self.any_letter}'."
                 )
+        # Update the history display (NEW CODE)
+        sorted_letters = sorted(list(self.guessed_letters))
+        self.history_label.config(text=f"Used Letters: {', '.join(sorted_letters)}")
 
     def reset_game(self):
         self.any_letter = random.choice(word_list)
@@ -193,6 +206,7 @@ class HangmanGame:
         self.word_label.config(text=" ".join(self.display_word))
         self.message_label.config(text="")
         self.update_stage()
+        self.history_label.config(text="Used Letters: None")
 
 
 # Main application loop
