@@ -2,6 +2,10 @@
 
 A collection of classic games built with Python! Perfect for learning game development, practicing Python, or just having fun.
 
+<div align="center">
+   <img width="500" height="281" alt="image" src="https://github.com/user-attachments/assets/9275c6d5-c792-43ef-ba34-af41a9a95fb0" />
+</div>
+
 ## Available Games
 
 | Game | Description | Run Command |
