@@ -36,7 +36,17 @@ A collection of classic games built with Python! Perfect for learning game devel
    cd python-games
    ```
 
-2. Run any game:
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Run the game menu:
+   ```bash
+   python main.py
+   ```
+   
+   Or run individual games directly:
    ```bash
    cd <GameFolder>
    python main.py
