@@ -100,63 +100,69 @@ def resume_game():
 
 
 # Main game loop
-while game_is_on:
-    if paused:
+try:
+    while game_is_on:
+        if paused:
+            screen.update()
+            continue
+
+        time.sleep(ball.move_speed)
+        ball.move()
         screen.update()
-        continue
 
-    time.sleep(ball.move_speed)
-    ball.move()
-    screen.update()
+        # Detect collision with wall
+        if ball.xcor() > 480 or ball.xcor() < -480:
+            ball.x_bounce()
 
-    # Detect collision with wall
-    if ball.xcor() > 480 or ball.xcor() < -480:
-        ball.x_bounce()
-
-    if ball.ycor() > 320:
-        ball.y_bounce()
-
-    # Detect collision with paddle - UPDATED for single paddle
-    if ball.distance(paddle) < 50 and ball.ycor() < -280:
-        # Calculate bounce angle based on where the ball hits the paddle
-        # This makes the game more interesting
-        relative_x = ball.xcor() - paddle.xcor()
-        normalized_x = relative_x / 40  # Normalize based on paddle width
-        ball.x_move = (
-            15 * normalized_x
-        )  # Adjust horizontal direction based on hit position
-
-        # Make sure the ball always moves upward after hitting the paddle
-        if ball.y_move < 0:
+        if ball.ycor() > 320:
             ball.y_bounce()
 
-    # Detect collision with bricks
-    for box, points in box_lst[:]:
-        if ball.distance(box) < 60:
-            ball.y_bounce()
-            box.goto(2000, 2000)  # Move the box off-screen
-            box_lst.remove((box, points))
-            scoreboard.increase_score(points)
+        # Detect collision with paddle - UPDATED for single paddle
+        if ball.distance(paddle) < 50 and ball.ycor() < -280:
+            # Calculate bounce angle based on where the ball hits the paddle
+            # This makes the game more interesting
+            relative_x = ball.xcor() - paddle.xcor()
+            normalized_x = relative_x / 40  # Normalize based on paddle width
+            ball.x_move = (
+                15 * normalized_x
+            )  # Adjust horizontal direction based on hit position
 
-            # Increase ball speed slightly after hitting a brick
-            ball.increase_speed()
+            # Make sure the ball always moves upward after hitting the paddle
+            if ball.y_move < 0:
+                ball.y_bounce()
 
-            # Check if all bricks are cleared
-            if len(box_lst) == 0:
-                scoreboard.game_over(won=True)
+        # Detect collision with bricks
+        for box, points in box_lst[:]:
+            if ball.distance(box) < 60:
+                ball.y_bounce()
+                box.goto(2000, 2000)  # Move the box off-screen
+                box_lst.remove((box, points))
+                scoreboard.increase_score(points)
+
+                # Increase ball speed slightly after hitting a brick
+                ball.increase_speed()
+
+                # Check if all bricks are cleared
+                if len(box_lst) == 0:
+                    scoreboard.game_over(won=True)
+                    game_is_on = False
+
+        # Reset ball position if it goes out of bounds
+        if ball.ycor() < -320:
+            game_over = scoreboard.lose_life()
+            if game_over:
+                scoreboard.game_over(won=False)
                 game_is_on = False
+            else:
+                ball.reset_position()
+                time.sleep(1)  # Pause briefly before continuing
 
-    # Reset ball position if it goes out of bounds
-    if ball.ycor() < -320:
-        game_over = scoreboard.lose_life()
-        if game_over:
-            scoreboard.game_over(won=False)
-            game_is_on = False
-        else:
-            ball.reset_position()
-            time.sleep(1)  # Pause briefly before continuing
+        screen.update()
+except Exception:
+    pass
 
-    screen.update()
-
-# Wait for user to close the window
-screen.exitonclick()
+try:
+    # Wait for user to close the window
+    screen.exitonclick()
+except Exception:
+    pass
