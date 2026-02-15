@@ -113,94 +113,100 @@ screen.onkey(key="d", fun=change_difficulty)
 screen.onkey(key="m", fun=change_max_score)
 
 # Main game loop
-while True:
-    if game_is_on and not is_paused:
-        # Move the ball
-        ball.move()
+try:
+    while True:
+        if game_is_on and not is_paused:
+            # Move the ball
+            ball.move()
 
-        # Update power-up status for paddles
-        left.update_power_status()
-        right.update_power_status()
+            # Update power-up status for paddles
+            left.update_power_status()
+            right.update_power_status()
 
-        # Randomly spawn power-ups
-        power_up_counter += 1
-        if power_up_counter >= 100 and not powerup.is_active and random.random() < 0.02:
-            powerup.activate()
-            power_up_counter = 0
+            # Randomly spawn power-ups
+            power_up_counter += 1
+            if power_up_counter >= 100 and not powerup.is_active and random.random() < 0.02:
+                powerup.activate()
+                power_up_counter = 0
 
-        # Check for wall collisions
-        if abs(ball.ycor()) >= 350:
-            ball.y_bounce()
-            sound.play_bounce()
-
-        # Check for scoring
-        if ball.xcor() >= 480:
-            scoreboard.l_point()
-            scoreboard.update_score()
-            sound.play_score()
-            ball.reset_position()
-            # Check for game over
-            if scoreboard.l_score >= max_score:
-                scoreboard.game_over("LEFT PLAYER")
-                time.sleep(3)
-                game_is_on = False
-                menu.show_main_menu()
-                scoreboard.l_score = 0
-                scoreboard.r_score = 0
-                scoreboard.update_score()
-
-        if ball.xcor() <= -480:
-            scoreboard.r_point()
-            scoreboard.update_score()
-            sound.play_score()
-            ball.reset_position()
-            # Check for game over
-            if scoreboard.r_score >= max_score:
-                scoreboard.game_over("RIGHT PLAYER")
-                time.sleep(3)
-                game_is_on = False
-                menu.show_main_menu()
-                scoreboard.l_score = 0
-                scoreboard.r_score = 0
-                scoreboard.update_score()
-
-        # Check for paddle collisions
-        for seg_lst in range(4):
-            if right.segments[seg_lst].distance(ball) <= 25:
-                ball.x_bounce()
+            # Check for wall collisions
+            if abs(ball.ycor()) >= 350:
+                ball.y_bounce()
                 sound.play_bounce()
-                # Increase ball speed occasionally
-                if random.random() < 0.3:
-                    ball.increase_speed()
 
-            if left.segments[seg_lst].distance(ball) <= 25:
-                ball.x_bounce()
-                sound.play_bounce()
-                # Increase ball speed occasionally
-                if random.random() < 0.3:
-                    ball.increase_speed()
+            # Check for scoring
+            if ball.xcor() >= 480:
+                scoreboard.l_point()
+                scoreboard.update_score()
+                sound.play_score()
+                ball.reset_position()
+                # Check for game over
+                if scoreboard.l_score >= max_score:
+                    scoreboard.game_over("LEFT PLAYER")
+                    time.sleep(3)
+                    game_is_on = False
+                    menu.show_main_menu()
+                    scoreboard.l_score = 0
+                    scoreboard.r_score = 0
+                    scoreboard.update_score()
 
-        # Check for power-up collision
-        if powerup.is_active and ball.distance(powerup) < 20:
-            power_type = random.choice(power_up_types)
-            # Apply power-up to the paddle that's on the same side as the ball
-            if ball.xcor() < 0:
-                left.apply_power_up(power_type)
-                for segment in left.segments:
-                    segment.color("yellow")
-            else:
-                right.apply_power_up(power_type)
-                for segment in right.segments:
-                    segment.color("yellow")
+            if ball.xcor() <= -480:
+                scoreboard.r_point()
+                scoreboard.update_score()
+                sound.play_score()
+                ball.reset_position()
+                # Check for game over
+                if scoreboard.r_score >= max_score:
+                    scoreboard.game_over("RIGHT PLAYER")
+                    time.sleep(3)
+                    game_is_on = False
+                    menu.show_main_menu()
+                    scoreboard.l_score = 0
+                    scoreboard.r_score = 0
+                    scoreboard.update_score()
 
-            powerup.deactivate()
-            sound.play_powerup()
+            # Check for paddle collisions
+            for seg_lst in range(4):
+                if right.segments[seg_lst].distance(ball) <= 25:
+                    ball.x_bounce()
+                    sound.play_bounce()
+                    # Increase ball speed occasionally
+                    if random.random() < 0.3:
+                        ball.increase_speed()
 
-    # Update screen
-    screen.update()
+                if left.segments[seg_lst].distance(ball) <= 25:
+                    ball.x_bounce()
+                    sound.play_bounce()
+                    # Increase ball speed occasionally
+                    if random.random() < 0.3:
+                        ball.increase_speed()
 
-    # Control game speed based on difficulty
-    if game_is_on and not is_paused:
-        time.sleep(difficulty_speeds.get(menu.difficulty, 0.1))
+            # Check for power-up collision
+            if powerup.is_active and ball.distance(powerup) < 20:
+                power_type = random.choice(power_up_types)
+                # Apply power-up to the paddle that's on the same side as the ball
+                if ball.xcor() < 0:
+                    left.apply_power_up(power_type)
+                    for segment in left.segments:
+                        segment.color("yellow")
+                else:
+                    right.apply_power_up(power_type)
+                    for segment in right.segments:
+                        segment.color("yellow")
 
-screen.exitonclick()
+                powerup.deactivate()
+                sound.play_powerup()
+
+        # Update screen
+        screen.update()
+
+        # Control game speed based on difficulty
+        if game_is_on and not is_paused:
+            time.sleep(difficulty_speeds.get(menu.difficulty, 0.1))
+except Exception:
+    pass
+
+try:
+    screen.exitonclick()
+except Exception:
+    pass
