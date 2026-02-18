@@ -87,6 +87,7 @@ python-games/
 ├── KBC/                # Quiz game
 ├── RockPaperScissor/   # Hand game
 ├── tests/              # Unit tests for all games
+├── main.py             # main executor file
 ├── CONTRIBUTING.md     # Contribution guidelines
 └── README.md           # This file
 ```
