@@ -88,6 +88,7 @@ python-games/
 ├── RockPaperScissor/   # Hand game
 ├── tests/              # Unit tests for all games
 ├── main.py             # main executor file
+├── banner.py           # python-games logo
 ├── CONTRIBUTING.md     # Contribution guidelines
 └── README.md           # This file
 ```
