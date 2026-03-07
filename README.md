@@ -1,4 +1,4 @@
-# Python Games Collection
+# 🎮 Python Games Collection
 
 A collection of classic games built with Python! Perfect for learning game development, practicing Python, or just having fun.
 
